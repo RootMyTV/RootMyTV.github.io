@@ -56,4 +56,4 @@ This app allows users and developers to easily "sideload" their own apps.
 
 It also
 provides some Luna IPC services which may be useful for jailbroken app development, including
-the ability to run shell commans as root.
+the ability to run shell commands as root.
