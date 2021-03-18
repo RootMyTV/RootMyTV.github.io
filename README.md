@@ -7,7 +7,7 @@ All you need is an internet-connected smart TV, and a TV remote (or alternativel
 # How it works
 
 In summary, we use a chain of exploits to get persistent root code execution.
-As root, we install the WebOS Homebrew Channel app, and disable various
+As root, we install the [WebOS Homebrew Channel](https://github.com/DavidBuchanan314/webos-homebrew-channel) app, and disable various
 security/sandboxing/jailing anti-features.
 
 ## Rooting
@@ -51,7 +51,7 @@ The `start-devmode.sh` startup script contains code to overcome these limitation
 
 # Homebrew Channel
 
-To take full advantage of these new features, I created the "WebOS Homebrew Channel" app.
+To take full advantage of these new features, I created the "[WebOS Homebrew Channel](https://github.com/DavidBuchanan314/webos-homebrew-channel)" app.
 This app allows users and developers to easily "sideload" their own apps.
 
 It also
