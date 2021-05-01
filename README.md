@@ -86,6 +86,13 @@ considered a security issue in most browsers for a while now - navigation to
 `data:` base64-encoded URI. This makes our browser no longer consider the origin
 being secure, and we can again access the plain-http WebSocket server.
 
+#### Mitigation note
+
+An observant reader may have noticed that the service we use is meant to be used
+remotely. While the connection itself needs a confirmation using a remote **we
+highly recommend to disable LG Connect Apps functionality** in order to prevent
+remote exploitation, or at least to keep the TV on a separate network.
+
 ### Step #1 - Social login escape (stage1.html)
 
 Having some initial programmatic control of the TV via SSAP we can execute any
