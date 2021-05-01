@@ -104,7 +104,7 @@ able to open an arbitrary web page (with the only requirement being it served
 over `https`) running as a system app that is considered by `LunaDownloadMgr`
 a "system" app.
 
-### Step #2 - Download All The Things
+### Step #2 - Download All The Things (stage2.html)
 
 Since we are already running as a system application, we can download files
 (securely over https!) into arbitrary unjailed filesystem locations as root.
@@ -121,7 +121,7 @@ We use that to download following files:
 * `devmode_enabled` → `/var/luna/preferences/devmode_enabled` - this is the flag
   checked before running `start-devmode.sh` script, and is just a dummy file.
 
-### Step #3 - Homebrew Channel Deployment
+### Step #3 - Homebrew Channel Deployment (stage3.sh)
 
 `stage3.sh` script is a minimal tool that, after opening an emergency telnet
 shell and removing itself (in case something goes wrong and the user needs to
