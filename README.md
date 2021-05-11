@@ -1,22 +1,68 @@
 # RootMyTV
 
-RootMyTV is a "remote" root exploit chain, and Jailbreak, for LG webOS smart TVs.
+RootMyTV is a user-friendly exploit for rooting/jailbreaking LG webOS smart TVs.
 
-All you need is an internet-connected smart TV, and a TV remote (or alternatively, an Arduino and an IR LED!).
+It bootstraps the installation of the [webOS Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel),
+and allows it to run with elevated privileges. The Homebrew Channel is a
+community-developed open source app, that makes it easier to develop and install
+3rd party software. [Find out more about it here.](https://github.com/webosbrew/webos-homebrew-channel)
 
-# How it works
+TODO: say which webOS versions etc. are currently supported
 
-In summary, we use a chain of exploits to get persistent root code execution.
-As root, we install the [webOS Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel) app, and disable various
-security/sandboxing/jailing anti-features.
+# Usage
 
-## Rooting
+TODO: quick tutorial on how to launch the exploit (or maybe link to a separate .md?)
+
+TODO: link to seperate .md file for further details/troubleshooting?
+
+TODO: link to discord for support etc?
+
+# Research Summary and Timeline
+
+RootMyTV is a chain of exploits. The discovery and devlopment of these
+exploits has been a collaborative
+effort, with direct and indirect contributions from multiple researchers.
+
+On October 05, 2020, Andreas Lindh reported a root file overwrite vulnerability
+to LG. On February 03, 2021, Andreas [published his findings](https://blog.recurity-labs.com/2021-02-03/webOS_Pt1.html),
+demonstrating a local root exploit against the webOS Emulator (a part
+of LG's development SDK). LG had boldly claimed that this issue did not affect their devices,
+and that they were going to patch their emulator.
+
+On February 15th, 2021, David Buchanan reported a vulnerability in LG's
+"ThinQ login" app, which allowed the app to be hijacked via a specific sequence
+of user inputs, allowing an attacker to call privileged APIs.
+On March 23rd 2021, David [published a proof-of-concept exploit](https://forum.xda-developers.com/t/rootmy-tv-coming-soon-developer-pre-release-available-now.4232223/),
+which enabled users to gain root privileges on their LG smart TVs. This was made
+possible by combining it with the local root vulnerability previously
+reported by Andreas (Yes, the same one that LG said did not affect their devices!).
+
+Around March 28th 2021, Piotr Dobrowolski discovered a similar vulnerability in the
+"Social login" app, which is present across a wider range of webOS versions.
+More importantly, this exploit could be easily triggered over the local network,
+using SSAP (details below), making it much more reliable and user-friendly.
+
+At time of writing, the code in this repo is the combined work of David
+Buchanan (Web design, initial PoC exploit) and Piotr Dobrowolski (Improved "v2" exploit
+implementation, and writeup).
+
+We would like to thank:
+
+ - Andreas Lindh for publishing his webOS research.
+
+ - The wider webOS community, particularly the XDA forums and the OpenLGTV discord (TODO: links)
+
+ - All the contributors (present and future) to the Homebrew Channel, and development of other homebrew apps and software.
+
+ - LG, for patching symptoms of bugs rather than underlying causes...
+
+# The Technical Details
 
 ### Background
 
 webOS, as the name suggests, is a Smart TV operating system mostly based on web
 technologies. Applications, both system and external are either run in a
-stripped down web browser ("WebAppMgr") or in Qt QML runtime. Almost all system
+stripped down Chromium-based web browser ("WebAppMgr") or in Qt QML runtime. Almost all system
 and external applications run in chroot-based jails as an additional security
 layer.
 
@@ -28,8 +74,7 @@ domains. Bus clients can expose some RPC methods to other applications
 JSON object message as their call parameters, and then can return one or many
 messages. (depending on the call being "subscribable" or not)
 
-While Luna bus seems to have extensive ACL handling, considering the history of
-webOS IP transfers, seems like not many engineers fully understand its
+While Luna bus seems to have extensive ACL handling, considering the [history of webOS IP transfers](https://en.wikipedia.org/wiki/WebOS#History), seems like not many engineers fully understand its
 capabilities. Part of the bus is marked as "private", which is only accessible
 by certain system applications, while most of the other calls are "public" and
 can be accessed by all apps.
@@ -135,54 +180,3 @@ shell and removing itself (in case something goes wrong and the user needs to
 reboot a TV - script keeps running but will no longer be executed on next
 startup), installs the homebrew channel app via standard devmode service calls
 and elevates its service to run unjailed as root as well.
-
-
-# Legacy
-
-"LG ThinQ Login" is a privileged app, which is used to sign in to various "smart" services.
-If we use the option to sign in with an Amazon account, we can click web links, and
-ultimately end up on google.com. From there, we can search and navigate to [RootMy.TV](https://rootmy.tv),
-which hosts the next stage of the exploit. Any javascript that we run has privileged access
-to various "private" Luna IPC APIs, including DownloadManager, which has a [publicly documented](https://blog.recurity-labs.com/2021-02-03/webOS_Pt1.html)
-arbitrary-root-file-write vulnerability.
-
-Using DownloadManager, we download the Homebrew Channel app, force-enable the developer mode setting, and then
-download a shell script to `/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sh`.
-
-Then, we use another Luna API call to reboot the TV. When the TV boots back up, and on
-every subsequent boot, our code in `start-devmode.sh` script gets run as root.
-
-## Jailbreaking
-
-Normally, the only way to run your own code on webOS is to [enable Developer Mode](https://webostv.developer.lge.com/develop/app-test),
-which is an officially supported feature. There are four big problems with LG's
-Developer Mode:
-
-1. It requires creating an online account with LG, which in turn requires accepting oppressive ToS agreements.
-
-2. When developer mode times out, all developer-installed apps are removed.
-
-3. Apps run inside a restricted chroot jail, under the unprivileged user account "prisoner".
-
-4. Apps can only access "public" Luna APIs, which significantly restricts their potential functionality.
-
-The `start-devmode.sh` startup script contains code to overcome these limitations, as follows:
-
- - It starts a telnet server, allowing full remote root access to the TV, for debugging, research etc.
-
- - It patches `sam` (System and Application Manager) at runtime, to allow installing and launching (non-devmode) apps from unofficial sources. Apps installed in this way can access "private" Luna APIs.
-
- - It remounts the app data paritions without the `nosuid` flag, enabling native apps with the `setuid` filesystem permission bit to run as root. Apps with root privileges can trivially escape from the chroot jail.
-
- - System telemetry is disabled by setting the "immutable" filesystem permission bit, on various telemetry log directories.
-
-# Homebrew Channel
-
-To take full advantage of these new features, we created the "[webOS Homebrew Channel](https://github.com/DavidBuchanan314/webos-homebrew-channel)" app.
-This app allows users and developers to easily "sideload" their own apps.
-
-It also provides some Luna IPC services which may be useful for jailbroken app development, including
-the ability to run shell commands as root. We also provide a user-friendly
-interface to manage various configuration options, like locking software update
-nagging, early boot user scripts with some fallback in case of system crashes
-or exposing root SSH daemon.
