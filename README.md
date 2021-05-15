@@ -24,6 +24,17 @@ chain.
 5. TV should now go through the exploit chain listed down below, perform a
    reboot and finish by showing a bunch of notification messages, installing
    Homebrew Channel and prompting for a final reboot.
+6. TV should now have Homebrew Channel app installed and respond to
+   unauthenticated telnet connections. It is highly recommended to disable
+   Telnet and enable SSH Server with public key authentication
+   (Homebrew Channel → Settings → SSH Server). SSH Public Key needs to be
+   copied to `/home/root/.ssh/authorized_keys` on a TV.
+
+   GitHub user registered keys can be installed using the following snippet:
+
+   ```sh
+   mkdir -p ~/.ssh && curl https://github.com/USERNAME.keys > ~/.ssh/authorized_keys
+   ```
 
 ## Troubleshooting
 
