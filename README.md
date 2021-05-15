@@ -9,13 +9,68 @@ community-developed open source app, that makes it easier to develop and install
 
 TODO: say which webOS versions etc. are currently supported
 
+At the time of writing (2021-05-15), all webOS versions between 3.5 and 5.5 we
+tested (TVs released between mid-2017 and 2020) are supported by this exploit
+chain.
+
 # Usage
+
+1. Make sure "LG Connect Apps" feature is enabled in system settings (may
+   depend on running webOS version - on webOS 3.8: Quick Settings → All Settings
+   → Network → LG Connect Apps → "ON")
+2. Open system browser and navigate to [https://rootmy.tv](https://rootmy.tv)
+3. "Slide to root" using a Magic Remote or press button "5" on Your remote
+4. Accept mobile app connection prompt
+5. TV should now go through the exploit chain listed down below, perform a
+   reboot and finish by showing a bunch of notification messages, installing
+   Homebrew Channel and prompting for a final reboot.
+
+## Troubleshooting
+
+In case of any problems [join our Discord server](https://discord.gg/xWqRVEm)
+and ask for help on `#rootmytv` channel, or file a GitHub issue.
+
+- Check if LG Connect Apps is enabled
+- Verify if http://localhost:3000 works in webOS system browser
+- After an initial reboot an unauthenticated telnet service (port 23) is exposed.
+  In case of any issues it can be used for debugging. Additionally, if an error
+  occurs during Homebrew Channel install, the bootstrap shell script is removed,
+  and the TV should return to original state after a reboot. Then, rooting may be
+  reattempted.
 
 TODO: quick tutorial on how to launch the exploit (or maybe link to a separate .md?)
 
 TODO: link to seperate .md file for further details/troubleshooting?
 
 TODO: link to discord for support etc?
+
+## Blind deployment
+
+A TV with a broken screen can be rooted as well quite easily.
+
+[An exploit](https://rootmy.tv) can be saved to a local disk on (Ctrl-S...) a
+"normal" browser running on a local network. After opening the resulting
+`index.html` file a prompt will be shown asking for an IP address of a TV to
+perform rooting on. This can help when rooting a TV without a working display.
+
+0. Check if the TV responds on HTTP port 3000 (http://your-tv:3000) - if it does,
+   you can skip step 1 as it already has LG Connect Apps enabled.
+1. Enable LG Connect Apps (Key sequence likely depends on webOS version, this
+   is documented for webOS 3.8)
+    - Long press "Quick Settings" on Magic Remote (or press "Quick Settings"
+      once, ↑, OK)
+    - Wait a couple of seconds...
+    - 3x ↓
+    - 1x →
+    - 4x ↓ (or as many as possible, LG Connect Apps is the last item in the
+      menu)
+    - OK (open submenu)
+    - OK (enable)
+    - Exit (or press back multiple times)
+2. Run an exploit in an external browser providing an IP address of a TV
+3. When asked for a connection prompt after a couple of seconds, press → and OK
+4. TV should reboot after a while and should start responding to unauthenticated
+   telnet connections on its IP address.
 
 # Research Summary and Timeline
 
