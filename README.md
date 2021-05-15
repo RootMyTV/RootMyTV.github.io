@@ -19,9 +19,9 @@ TODO: link to discord for support etc?
 
 # Research Summary and Timeline
 
-RootMyTV is a chain of exploits. The discovery and devlopment of these
-exploits has been a collaborative
-effort, with direct and indirect contributions from multiple researchers.
+RootMyTV is a chain of exploits. The discovery and development of these
+exploits has been a collaborative effort, with direct and indirect contributions
+from multiple researchers.
 
 On October 05, 2020, Andreas Lindh reported a root file overwrite vulnerability
 to LG. On February 03, 2021, Andreas [published his findings](https://blog.recurity-labs.com/2021-02-03/webOS_Pt1.html),
