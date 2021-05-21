@@ -13,22 +13,26 @@ At the time of writing (2021-05-15), all webOS versions between 3.5 and 5.5 we
 tested (TVs released between mid-2017 and 2020) are supported by this exploit
 chain.
 
-# Usage
+# Usage Instructions
 
-1. Make sure "LG Connect Apps" feature is enabled in system settings (may
-   depend on running webOS version - on webOS 3.8: Quick Settings → All Settings
-   → Network → LG Connect Apps → "ON")
-2. Open system browser and navigate to [https://rootmy.tv](https://rootmy.tv)
-3. "Slide to root" using a Magic Remote or press button "5" on Your remote
-4. Accept mobile app connection prompt
-5. TV should now go through the exploit chain listed down below, perform a
-   reboot and finish by showing a bunch of notification messages, installing
-   Homebrew Channel and prompting for a final reboot.
-6. TV should now have Homebrew Channel app installed and respond to
-   unauthenticated telnet connections. It is highly recommended to disable
+**Step Zero (disclaimer):** Be aware of the risks. Rooting your TV is (unfortunately) not supported by
+LG, and although we've done our best to minimise the risk of damage,
+we cannot make any guarantees. This may void your warranty.
+
+1. Make sure the "LG Connect Apps" feature is enabled. It seems to be enabled by default on
+   webOS 4.0+. For older models, follow [LG's instructions.](https://www.lg.com/in/support/help-library/lg-webos-tv-how-to-use-lg-connect-apps-CT20150005-1437127057046)
+2. Open the web browser app and navigate to [https://rootmy.tv](https://rootmy.tv)
+3. "Slide to root" using a Magic Remote or press button "5" on your remote.
+4. Accept the security prompt.
+5. The exploit will proceed automatically. The TV will reboot itself once
+   during this process, and optionally a second time to finalize the installation
+   of the Homebrew Channel. On-screen notifications will indicate the exploit's
+   progress.
+6. Your TV should now have Homebrew Channel app installed, and an
+   unauthenticated root telnet service exposed. It is **highly recommended** to disable
    Telnet and enable SSH Server with public key authentication
-   (Homebrew Channel → Settings → SSH Server). SSH Public Key needs to be
-   copied to `/home/root/.ssh/authorized_keys` on a TV.
+   (Homebrew Channel → Settings → SSH Server). You will need to manually copy
+   your SSH Public Key over to `/home/root/.ssh/authorized_keys` on the TV.
 
    GitHub user registered keys can be installed using the following snippet:
 
@@ -38,7 +42,7 @@ chain.
 
 ## Troubleshooting
 
-In case of any problems [join our Discord server](https://discord.gg/xWqRVEm)
+In case of any problems [join the OpenLGTV Discord server](https://discord.gg/xWqRVEm)
 and ask for help on `#rootmytv` channel, or file a GitHub issue.
 
 - Check if LG Connect Apps is enabled
@@ -57,9 +61,10 @@ TODO: link to discord for support etc?
 
 ## Blind deployment
 
-A TV with a broken screen can be rooted as well quite easily.
+A TV with a broken screen can be rooted quite easily, turning it into a useful platform
+for further research.
 
-[An exploit](https://rootmy.tv) can be saved to a local disk on (Ctrl-S...) a
+[The exploit](https://rootmy.tv) can be saved to a local disk on (Ctrl-S...) a
 "normal" browser running on a local network. After opening the resulting
 `index.html` file a prompt will be shown asking for an IP address of a TV to
 perform rooting on. This can help when rooting a TV without a working display.
