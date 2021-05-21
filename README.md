@@ -21,7 +21,7 @@ we cannot make any guarantees. This may void your warranty.
 
 1. Make sure the "LG Connect Apps" feature is enabled. It seems to be enabled by default on
    webOS 4.0+. For older models, follow [LG's instructions.](https://www.lg.com/in/support/help-library/lg-webos-tv-how-to-use-lg-connect-apps-CT20150005-1437127057046)
-2. Open the web browser app and navigate to [https://rootmy.tv](https://rootmy.tv)
+2. Open the TV's web browser app and navigate to [https://rootmy.tv](https://rootmy.tv)
 3. "Slide to root" using a Magic Remote or press button "5" on your remote.
 4. Accept the security prompt.
 5. The exploit will proceed automatically. The TV will reboot itself once
