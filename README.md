@@ -99,7 +99,7 @@ We would like to thank:
 
  - Andreas Lindh for publishing his webOS research.
 
- - The wider webOS community, particularly the XDA forums and the OpenLGTV discord (TODO: links)
+ - The wider webOS community, particularly the [XDA forums](https://forum.xda-developers.com/f/webos-software-and-hacking-general.1079/) and the [OpenLGTV discord.](https://discord.gg/xWqRVEm)
 
  - All the contributors (present and future) to the Homebrew Channel, and development of other homebrew apps and software.
 
