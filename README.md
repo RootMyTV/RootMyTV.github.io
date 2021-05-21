@@ -9,11 +9,15 @@ community-developed open source app, that makes it easier to develop and install
 
 If you want the full details of how the exploit works, [skip ahead to our writeup.](#research-summary-and-timeline)
 
-<!-- TODO: say which webOS versions etc. are currently supported -->
+# Is my TV vulnerable?
 
 At the time of writing (2021-05-15), all webOS versions between 3.5 and 5.5 we
 tested (TVs released between mid-2017 and 2020) are supported by this exploit
-chain.
+chain. Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not*
+the "Software Version" field.
+
+If you want to protect your TV against exploitation, please see the [relevant section](#mitigation-note)
+of our writeup and/or await an update from LG.
 
 # Usage Instructions
 
@@ -30,9 +34,16 @@ we cannot make any guarantees. This may void your warranty.
    during this process, and optionally a second time to finalize the installation
    of the Homebrew Channel. On-screen notifications will indicate the exploit's
    progress.
-6. Your TV should now have Homebrew Channel app installed, and an
-   unauthenticated root telnet service exposed. It is **highly recommended** to disable
-   Telnet and enable SSH Server with public key authentication
+
+Your TV should now have Homebrew Channel app installed, and an
+unauthenticated(!) root telnet service exposed.
+
+For exploiting broken TVs, check out the information [here.](./docs/HEADLESS.md)
+
+## Post-Installation Advice (IMPORTANT!)
+
+1. For security reasons, it is **highly recommended** to disable
+   Telnet, and enable SSH Server with public key authentication
    (Homebrew Channel → Settings → SSH Server). You will need to manually copy
    your SSH Public Key over to `/home/root/.ssh/authorized_keys` on the TV.
 
@@ -41,8 +52,12 @@ we cannot make any guarantees. This may void your warranty.
    ```sh
    mkdir -p ~/.ssh && curl https://github.com/USERNAME.keys > ~/.ssh/authorized_keys
    ```
-
-For exploiting broken TVs, check out the information [here.](./docs/HEADLESS.md)
+2. Don't update your TV. While updates are technically possible, if LG patches the
+   exploit, you might end up "locked out" and unable to re-root your TV if you
+   somehow lose access. We also can't predict how future updates will affect
+   our techniques used to elevate and operate the Homebrew Channel app.
+3. Don't Install, Uninstall, or Update LG's "Developer Mode" app. Doing so will
+   overwrite or remove the startup script used to bootstrap the jailbreak.
 
 ## Troubleshooting
 
@@ -119,7 +134,7 @@ Said service has been researched in the past and an identity confusion bug
 leading to an arbitrary unjailed root file write vulnerability has been
 [publicly documented](https://blog.recurity-labs.com/2021-02-03/webOS_Pt1.html).
 
-This in of itself was not very helpful in production hardware, thus we needed to
+This in and of itself was not very helpful in production hardware, thus we needed to
 find a way of calling an arbitrary Luna service from an application with
 `com.webos.` / `com.palm.` / `com.lge.` application ID.
 
@@ -129,7 +144,7 @@ In order to gain initial programmatic control of the TV user interface an
 interface of "LG Connect Apps" can be used. Its protocol called "SSAP" is a
 simple websocket-based RPC mechanism that can be used to indirectly interact
 with Luna Service bus and has been extensively documented in various
-home-automation related contexts.  We use that to launch a vulnerable system
+home-automation related contexts. We use that to launch a vulnerable system
 application which is not easily accessible with plain user interaction.
 
 #### Step #0.1 - Escaping the origins
