@@ -1,4 +1,4 @@
-# RootMyTV
+![RootMyTV header image](./img/header_logo.png)
 
 RootMyTV is a user-friendly exploit for rooting/jailbreaking LG webOS smart TVs.
 
@@ -7,7 +7,9 @@ and allows it to run with elevated privileges. The Homebrew Channel is a
 community-developed open source app, that makes it easier to develop and install
 3rd party software. [Find out more about it here.](https://github.com/webosbrew/webos-homebrew-channel)
 
-TODO: say which webOS versions etc. are currently supported
+If you want the full details of how the exploit works, [skip ahead to our writeup.](#research-summary-and-timeline)
+
+<!-- TODO: say which webOS versions etc. are currently supported -->
 
 At the time of writing (2021-05-15), all webOS versions between 3.5 and 5.5 we
 tested (TVs released between mid-2017 and 2020) are supported by this exploit
