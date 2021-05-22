@@ -5,9 +5,9 @@ RootMyTV is a user-friendly exploit for rooting/jailbreaking LG webOS smart TVs.
 It bootstraps the installation of the [webOS Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel),
 and allows it to run with elevated privileges. The Homebrew Channel is a
 community-developed open source app, that makes it easier to develop and install
-3rd party software. [Find out more about it here.](https://github.com/webosbrew/webos-homebrew-channel)
+3rd party software. [Find out more about it here](https://github.com/webosbrew/webos-homebrew-channel).
 
-If you want the full details of how the exploit works, [skip ahead to our writeup.](#research-summary-and-timeline)
+If you want the full details of how the exploit works, [skip ahead to our writeup](#research-summary-and-timeline).
 
 # Is my TV vulnerable?
 
@@ -26,7 +26,7 @@ LG, and although we've done our best to minimise the risk of damage,
 we cannot make any guarantees. This may void your warranty.
 
 1. Make sure the "LG Connect Apps" feature is enabled. It seems to be enabled by default on
-   webOS 4.0+. For older models, follow [LG's instructions.](https://www.lg.com/in/support/help-library/lg-webos-tv-how-to-use-lg-connect-apps-CT20150005-1437127057046)
+   webOS 4.0+. For older models, follow [LG's instructions](https://www.lg.com/in/support/help-library/lg-webos-tv-how-to-use-lg-connect-apps-CT20150005-1437127057046).
 2. Open the TV's web browser app and navigate to [https://rootmy.tv](https://rootmy.tv)
 3. "Slide to root" using a Magic Remote or press button "5" on your remote.
 4. Accept the security prompt.
@@ -38,7 +38,7 @@ we cannot make any guarantees. This may void your warranty.
 Your TV should now have Homebrew Channel app installed, and an
 unauthenticated(!) root telnet service exposed.
 
-For exploiting broken TVs, check out the information [here.](./docs/HEADLESS.md)
+For exploiting broken TVs, check out the information [here](./docs/HEADLESS.md).
 
 ## Post-Installation Advice (IMPORTANT!)
 
@@ -55,16 +55,20 @@ For exploiting broken TVs, check out the information [here.](./docs/HEADLESS.md)
 2. Don't update your TV. While updates are technically possible, if LG patches the
    exploit, you might end up "locked out" and unable to re-root your TV if you
    somehow lose access. We also can't predict how future updates will affect
-   our techniques used to elevate and operate the Homebrew Channel app.
+   our techniques used to elevate and operate the Homebrew Channel app. "Block
+   system updates" option in Homebrew Channel will disable firmware update
+   checks.
 3. Don't Install, Uninstall, or Update LG's "Developer Mode" app. Doing so will
-   overwrite or remove the startup script used to bootstrap the jailbreak.
+   overwrite or remove the startup script used to bootstrap the jailbreak. It is
+   advisable to remove "Developer Mode" app before rooting. SSH service exposed
+   by Homebrew Channel is compatible with webOS SDK tooling.
 
 ## Troubleshooting
 
 In case of any problems [join the OpenLGTV Discord server](https://discord.gg/xWqRVEm)
 and ask for help on `#rootmytv` channel, or file a GitHub issue.
 
-Before asking for support, please consult our [Troubleshooting guide.](./docs/TROUBLESHOOTING.md)
+Before asking for support, please consult our [Troubleshooting guide](./docs/TROUBLESHOOTING.md).
 
 # Research Summary and Timeline
 
@@ -99,7 +103,7 @@ We would like to thank:
 
  - Andreas Lindh for publishing his webOS research.
 
- - The wider webOS community, particularly the [XDA forums](https://forum.xda-developers.com/f/webos-software-and-hacking-general.1079/) and the [OpenLGTV discord.](https://discord.gg/xWqRVEm)
+ - The wider webOS community, particularly the [XDA forums](https://forum.xda-developers.com/f/webos-software-and-hacking-general.1079/) and the [OpenLGTV discord](https://discord.gg/xWqRVEm).
 
  - All the contributors (present and future) to the Homebrew Channel, and development of other homebrew apps and software.
 
