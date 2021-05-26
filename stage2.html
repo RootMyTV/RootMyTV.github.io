@@ -74,11 +74,9 @@
         });
       }
 
-      // TODO: point at hbchannel release
-      var homebrewChannelURL = 'https://github.com/mariotaku/moonlight-tv/releases/download/v0.7.4/com.limelight.webos_0.7.4_arm.ipk';
+      var homebrewChannelURL = 'https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.2.1/org.webosbrew.hbchannel_0.2.1_all.ipk';
 
-      // TODO: remove -xxx suffix
-      download('files/stage3.sh', '/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/', 'start-devmode-xxx.sh', function () {
+      download('files/stage3.sh', '/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/', 'start-devmode.sh', function () {
         download(homebrewChannelURL, '/media/internal/downloads/', 'hbchannel.ipk', function () {
           download('files/devmode_enabled', '/var/luna/preferences/', 'devmode_enabled', function () {
             reboot();
