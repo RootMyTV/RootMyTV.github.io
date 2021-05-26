@@ -151,7 +151,7 @@ window.requestAnimationFrame(animate_tick);
     try {
       if (window.location.protocol !== 'data:') {
         window.location = 'data:text/html;base64,' + btoa(document.documentElement.innerHTML
-          .replace('="common.css"', '="' + new URL('common.css', window.location.href).href + '"')
+          .replace('="css/common.css"', '="' + new URL('css/common.css', window.location.href).href + '"')
           .replace('__START_ORIGIN__', window.location.href));
       }
     } catch (err) {}
