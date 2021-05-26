@@ -295,24 +295,24 @@ window.requestAnimationFrame(animate_tick);
     function begin_exploit() {
       // replace main body with log window
       document.querySelector("#main-article").innerHTML = "<pre id='log'></pre>";
-      
+
       var is_local = window.location.protocol === 'file:';
-      var is_webos = navigator.userAgent.toLowerCase().includes("webos") ||
-                     navigator.userAgent.toLowerCase().includes("netcast") ||
-                     navigator.userAgent.toLowerCase().includes("smarttv");
-      
+      var is_webos = navigator.userAgent.toLowerCase().indexOf("webos") !== -1 ||
+                     navigator.userAgent.toLowerCase().indexOf("netcast") !== -1 ||
+                     navigator.userAgent.toLowerCase().indexOf("smarttv") !== -1;
+
       if (!is_local && !is_webos) {
         log("[Warning] You should be visiting this page from a webOS device, not your desktop web browser!");
       }
-      
+
       // Allow people to download the exploit page to manually set target IP,
       // in case direct on-tv deployment fails for some reason.
       var target = is_local ? prompt('Enter IP address of Your TV') : 'localhost';
       bootstrap(target, new URL('stage2.html', ORIGIN_URL).href);
     }
-    
+
     // listen for "5" key to be pressed
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", function(event) {
       if (event.keyCode === 53) {
         begin_exploit();
       }
