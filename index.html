@@ -57,94 +57,6 @@
     };
   </script>
   <script>
-/* slider animation logic */
-var slider = document.getElementsByClassName("slider-button")[0];
-var sliderText = document.getElementsByClassName("slider-text")[0];
-var startX = 0;
-var endX = 0;
-var posX = 0;
-var grabbed = false;
-var velX = 0;
-var lastUpdate = Date.now();
-var prevPosX = 0;
-
-function slidermousedown(e) {
-	e.preventDefault();
-	startX = e.clientX;
-	grabbed = true;
-	endX = Math.floor(slider.parentElement.clientWidth * 0.827);
-	
-	//console.log("mousedown");
-	
-	window.onmousemove = slidermousemove;
-	window.onmouseup = slidermouseup;
-	return false;
-}
-
-function slidermousemove(e) {
-	e.preventDefault();
-	//console.log("mousemove");
-	var deltaX = e.clientX - startX;
-	if (deltaX < 0) {
-		deltaX = 0;
-	} else if (deltaX > endX) {
-		deltaX = endX;
-	}
-	posX = deltaX; // XXX fixme
-}
-
-function slidermouseup(e) {
-	//console.log("mouseup");
-	window.onmousemove = null;
-	window.onmouseup = null;
-	velX = 0;
-	if (posX == endX) {
-		console.log("slid!");
-		begin_exploit();
-		slider.onmousedown = null;
-	} else {
-		grabbed = false;
-	}
-}
-
-function animate_tick() {
-	var now = Date.now();
-	var dt = now - lastUpdate;
-	ticks = dt/(1000/60);
-	if (ticks > 4) ticks = 4;
-	lastUpdate = now;
-
-	if (!grabbed && posX != 0) {
-		var accel = (0.5 + posX/200) * ticks;
-		velX -= accel;
-		posX += velX * ticks;
-		
-		if (posX < 0) {
-			velX *= -0.3;
-			posX *= -0.3;
-		}
-		
-		if (posX < 0.1) {
-			posX = 0;
-		}
-	}
-	
-	//document.getElementById("fps").innerText = Math.floor(1000/dt);
-	
-	if (prevPosX != posX) {
-		slider.style.left = Math.floor(posX) + "px";
-		sliderText.style.opacity = 1-(posX/endX);
-	}
-	prevPosX = posX;
-	window.requestAnimationFrame(animate_tick);
-}
-
-
-
-slider.onmousedown = slidermousedown;
-window.requestAnimationFrame(animate_tick);
-  </script>
-  <script>
     // Exploit data: url navigation for browsers which didn't have following patch
     // applied yet (webOS 3.x):
     // https://chromium.googlesource.com/chromium/src.git/+/130ee686fa00b617bfc001ceb3bb49782da2cb4e
@@ -317,6 +229,85 @@ window.requestAnimationFrame(animate_tick);
         begin_exploit();
       }
     });
+
+    /* slider animation logic */
+    var slider = document.getElementsByClassName("slider-button")[0];
+    var sliderText = document.getElementsByClassName("slider-text")[0];
+    var startX = 0;
+    var endX = 0;
+    var posX = 0;
+    var grabbed = false;
+    var velX = 0;
+    var lastUpdate = Date.now();
+    var prevPosX = 0;
+
+    function slidermousedown(e) {
+      e.preventDefault();
+      startX = e.clientX;
+      grabbed = true;
+      endX = Math.floor(slider.parentElement.clientWidth * 0.827);
+
+      window.onmousemove = slidermousemove;
+      window.onmouseup = slidermouseup;
+      return false;
+    }
+
+    function slidermousemove(e) {
+      e.preventDefault();
+      var deltaX = e.clientX - startX;
+      if (deltaX < 0) {
+        deltaX = 0;
+      } else if (deltaX > endX) {
+        deltaX = endX;
+      }
+      posX = deltaX; // XXX fixme
+    }
+
+    function slidermouseup(e) {
+      window.onmousemove = null;
+      window.onmouseup = null;
+      velX = 0;
+      if (posX == endX) {
+        begin_exploit();
+        slider.onmousedown = null;
+      } else {
+        grabbed = false;
+      }
+    }
+
+    function animate_tick() {
+      var now = Date.now();
+      var dt = now - lastUpdate;
+      ticks = dt/(1000/60);
+      if (ticks > 4) ticks = 4;
+      lastUpdate = now;
+
+      if (!grabbed && posX != 0) {
+        var accel = (0.5 + posX/200) * ticks;
+        velX -= accel;
+        posX += velX * ticks;
+
+        if (posX < 0) {
+          velX *= -0.3;
+          posX *= -0.3;
+        }
+
+        if (posX < 0.1) {
+          posX = 0;
+        }
+      }
+
+      if (prevPosX != posX) {
+        slider.style.left = Math.floor(posX) + "px";
+        sliderText.style.opacity = 1-(posX/endX);
+      }
+
+      prevPosX = posX;
+      window.requestAnimationFrame(animate_tick);
+    }
+
+    slider.onmousedown = slidermousedown;
+    window.requestAnimationFrame(animate_tick);
   </script>
 </body>
 
