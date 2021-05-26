@@ -3,12 +3,16 @@
 # Remove this script - in case a reboot happens, we should end up with a clean
 # system...
 rm $0
+sync
 
 # Start root telnet server
 telnetd -l /bin/sh
 
 # give the system time to wake up
-sleep 5
+sleep 3
+
+mount --bind /bin/false /usr/sbin/update
+pkill -9 -f /usr/sbin/update
 
 luna-send -a webosbrew -f -n 1 luna://com.webos.notification/createToast '{"sourceId":"webosbrew","message": "Installing homebrew channel..."}'
 
