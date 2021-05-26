@@ -33,7 +33,7 @@
         read our documentation and writeup <a href="https://github.com/RootMyTV/RootMyTV.github.io">here.</a>
       </p>
       <p>
-        Once you're ready to proceed, drag the slider below (or press "5").
+        Once you're ready to proceed, drag the slider below (<i class="click-here">or press "5" / click here</i>).
       </p>
       <div class="slider-bar">
         <div class="slider-button"><p>-&gt;</p></div>
@@ -228,6 +228,10 @@
       if (event.keyCode === 53) {
         begin_exploit();
       }
+    });
+
+    document.querySelector('.click-here').addEventListener('click', function (event) {
+      begin_exploit();
     });
 
     /* slider animation logic */
