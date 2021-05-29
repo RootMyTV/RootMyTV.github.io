@@ -11,13 +11,13 @@ If you want the full details of how the exploit works, [skip ahead to our writeu
 
 # Is my TV vulnerable?
 
-At the time of writing (2021-05-15), all webOS versions between 3.5 and 5.5 we
-tested (TVs released between mid-2017 and 2020) are supported by this exploit
+At the time of writing (2021-05-15), all webOS versions between 3.4 and 6.0 we
+tested (TVs released between mid-2017 and early-2021) are supported by this exploit
 chain. Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not*
 the "Software Version" field.
 
-If you want to protect your TV against exploitation, please see the [relevant section](#mitigation-note)
-of our writeup and/or await an update from LG.
+If you want to protect your TV against remote exploitation, please see the
+[relevant section](#mitigation-note) of our writeup and/or await an update from LG.
 
 # Usage Instructions
 
@@ -189,14 +189,20 @@ being secure, and we can again access the plain-http WebSocket server.
 An observant reader may have noticed that the service we use is meant to be used
 remotely. While the connection itself needs a confirmation using a remote **we
 highly recommend to disable LG Connect Apps functionality** in order to prevent
-remote exploitation, or at least to keep the TV on a separate network.
+remote exploitation. This option, however, seems to be only present on webOS
+versions older than webOS 4.x - in such cases the only solutions are to either
+**keep the TV on a separate network**, or disable SSAP service manually
+using the following command after rooting:
+```sh
+luna-send -n 1 'palm://com.webos.settingsservice/setSystemSettings' '{"category":"network","settings":{"allowMobileDeviceAccess":false}}'
+```
 
 ### Step #1 - Social login escape (stage1.html)
 
 Having some initial programmatic control of the TV via SSAP we can execute any
 application present on the TV. All cross-application launches can contain an
 extra JSON object called `launchParams`. This is used to eg. open a system
-browser with specific link open, or launch a predetermined YouTube video. Turns
+browser with specific site open, or launch a predetermined YouTube video. Turns
 out this functionality is also used to select which social website to use in
 `com.webos.app.facebooklogin`, which is the older sibling of
 `com.webos.app.iot-thirdparty-login` used in initial exploit, present on all
