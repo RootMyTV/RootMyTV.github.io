@@ -1,11 +1,6 @@
 # Troubleshooting
 
-TODO:
- restructure this to have a subheading for each problem/symptom,
-followed by bulletpoints for potential solutions.
-
-ideally we will keep this updated as new problems inevitably arise
-/TODO
+**TODO: We don't have a proper troubleshooting guide yet, its best just to ask on the discord, and hopefully we'll update this as time goes on.**
 
 - Check if LG Connect Apps is enabled
 - Verify if http://localhost:3000 works in webOS system browser
