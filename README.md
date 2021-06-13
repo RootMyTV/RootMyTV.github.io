@@ -133,7 +133,7 @@ capabilities. Part of the bus is marked as "private", which is only accessible
 by certain system applications, while most of the other calls are "public" and
 can be accessed by all apps.
 
-Unexpectedly, one of the "public" services exposed on a bus is "LunaDownloadMgr"
+Unexpectedly, one of the internal services exposed on a bus is "LunaDownloadMgr"
 which provides a convenient API for file download, progress tracking, etc...
 Said service has been researched in the past and an identity confusion bug
 leading to an arbitrary unjailed root file write vulnerability has been
