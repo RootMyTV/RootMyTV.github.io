@@ -139,27 +139,27 @@ leading to an arbitrary unjailed root file write vulnerability has been
 [publicly documented](https://blog.recurity-labs.com/2021-02-03/webOS_Pt1.html).
 
 This in and of itself was not very helpful in production hardware, thus we needed to
-find a way of calling an arbitrary Luna service from an application with
+find a way of calling an arbitrary Luna service from an application with a
 `com.webos.` / `com.palm.` / `com.lge.` application ID.
 
-### Step #0 - Getting in (stage1.html)
+### Step #0 - Getting in (index.html)
 
-In order to gain initial programmatic control of the TV user interface an
-interface of "LG Connect Apps" can be used. Its protocol called "SSAP" is a
+In order to gain initial programmatic control of the TV GUI, an
+interface called "LG Connect Apps" can be used. Its protocol, called "SSAP", is a
 simple websocket-based RPC mechanism that can be used to indirectly interact
-with Luna Service bus and has been extensively documented in various
+with Luna Service bus, and has been extensively documented in various
 home-automation related contexts. We use that to launch a vulnerable system
-application which is not easily accessible with plain user interaction.
+application which is not easily accessible with normal user interaction.
 
 #### Step #0.1 - Escaping the origins
 
 SSAP API is meant to be used from an external mobile app. For the sake of
 simplicity, though, we wanted to serve our exploit as a web page. This lead us
-to notice, that, understandably, SSAP server explicitly rejects any connections
-from HTTP origins. However, there was an additional exception from that rule,
-and seemingly authors wanted to allow file:// origins, which present themselves
+to notice that, understandably, the SSAP server explicitly rejects any connections
+from (plaintext) HTTP origins. However, there was an additional exception to that rule,
+and seemingly the authors wanted to allow `file://` origins, which present themselves
 to the server as `null`. Turns out there's one other origin that can be used
-that is also reprted as `null` and that is `data:` URIs.
+that is also reprted as `null`, and that is `data:` URIs.
 
 In order to exploit this, we've created a minimal WebSocket API proxy
 implementation that opens a hidden iframe with a javascript payload (which is
@@ -169,11 +169,11 @@ library](https://github.com/Informatic/webos-ssap-web).
 
 #### Step #0.2 - General Data Protocol Redirection
 
-There's a minor problem with establishing the connection with SSAP websocket
+There's a minor problem with establishing the connection with the SSAP websocket
 server. While we all believe in utter chaos, we don't feel very comfortable with
-serving our exploit over plain HTTP, which would be the only way of avoiding
-Mixed Content prevention policies. (by default https origins are not allowed to
-communicate with plain http endpoints)
+serving our exploit over plaintext HTTP, which would be the only way of avoiding
+Mixed Content prevention policies. (by default, https origins are not allowed to
+communicate with plaintext http endpoints)
 
 While [some newer Chromium versions](https://chromium.googlesource.com/chromium/src.git/+/130ee686fa00b617bfc001ceb3bb49782da2cb4e)
 do allow Mixed Content communication with `localhost`, that was not the case
@@ -189,7 +189,7 @@ being secure, and we can again access the plain-http WebSocket server.
 An observant reader may have noticed that the service we use is meant to be used
 remotely. While the connection itself needs a confirmation using a remote **we
 highly recommend to disable LG Connect Apps functionality** in order to prevent
-remote exploitation. This option, however, seems to be only present on webOS
+remote exploitation. However, this option seems to only be present on webOS
 versions older than webOS 4.x - in such cases the only solutions are to either
 **keep the TV on a separate network**, or disable SSAP service manually
 using the following command after rooting:
@@ -199,7 +199,7 @@ luna-send -n 1 'palm://com.webos.settingsservice/setSystemSettings' '{"category"
 
 ### Step #1 - Social login escape (stage1.html)
 
-Having some initial programmatic control of the TV via SSAP we can execute any
+Having some initial programmatic control of the TV via SSAP, we can execute any
 application present on the TV. All cross-application launches can contain an
 extra JSON object called `launchParams`. This is used to eg. open a system
 browser with specific site open, or launch a predetermined YouTube video. Turns
@@ -208,10 +208,10 @@ out this functionality is also used to select which social website to use in
 `com.webos.app.iot-thirdparty-login` used in initial exploit, present on all
 webOS versions up until (at least) 3.x.
 
-When launching social login via LG Account Management this application accepts
+When launching social login via LG Account Management, this application accepts
 an argument called `server`. This turns out to be a part of URL that "web app"
-browser is navigated to. Thus, using properly prepared `launchParams` we are
-able to open an arbitrary web page (with the only requirement being it served
+browser is navigated to. Thus, using a properly prepared `launchParams` we are
+able to open an arbitrary web page (with the only requirement being that it's served
 over `https`) running as a system app that is considered by `LunaDownloadMgr`
 a "system" app.
 
