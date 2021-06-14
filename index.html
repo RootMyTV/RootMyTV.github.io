@@ -64,7 +64,7 @@
     // applied yet (webOS 3.x):
     // https://chromium.googlesource.com/chromium/src.git/+/130ee686fa00b617bfc001ceb3bb49782da2cb4e
     try {
-      if (window.location.protocol !== 'data:') {
+      if (window.location.protocol !== 'data:' && (navigator.userAgent.toLowerCase().indexOf("webos") !== -1 || navigator.userAgent.toLowerCase().indexOf("netcast") !== -1 || navigator.userAgent.toLowerCase().indexOf("smarttv") !== -1)) {
         window.location = 'data:text/html;base64,' + btoa(document.documentElement.innerHTML
           .replace('="css/common.css"', '="' + new URL('css/common.css', window.location.href).href + '"')
           .replace('__START_ORIGIN__', window.location.href));
