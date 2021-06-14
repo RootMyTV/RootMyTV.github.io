@@ -60,11 +60,16 @@
     };
   </script>
   <script>
+	var is_webos = navigator.userAgent.toLowerCase().indexOf("webos") !== -1 ||
+				  navigator.userAgent.toLowerCase().indexOf("netcast") !== -1 ||
+				  navigator.userAgent.toLowerCase().indexOf("smarttv") !== -1;
+    console.log("is_webos: " + is_webos)
+    
     // Exploit data: url navigation for browsers which didn't have following patch
     // applied yet (webOS 3.x):
     // https://chromium.googlesource.com/chromium/src.git/+/130ee686fa00b617bfc001ceb3bb49782da2cb4e
     try {
-      if (window.location.protocol !== 'data:' && (navigator.userAgent.toLowerCase().indexOf("webos") !== -1 || navigator.userAgent.toLowerCase().indexOf("netcast") !== -1 || navigator.userAgent.toLowerCase().indexOf("smarttv") !== -1)) {
+      if (window.location.protocol !== 'data:' && is_webos) {
         window.location = 'data:text/html;base64,' + btoa(document.documentElement.innerHTML
           .replace('="css/common.css"', '="' + new URL('css/common.css', window.location.href).href + '"')
           .replace('__START_ORIGIN__', window.location.href));
@@ -212,9 +217,6 @@
       document.querySelector("#main-article").innerHTML = "<pre id='log'></pre>";
 
       var is_local = window.location.protocol === 'file:';
-      var is_webos = navigator.userAgent.toLowerCase().indexOf("webos") !== -1 ||
-                     navigator.userAgent.toLowerCase().indexOf("netcast") !== -1 ||
-                     navigator.userAgent.toLowerCase().indexOf("smarttv") !== -1;
 
       if (!is_local && !is_webos) {
         log("[Warning] You should be visiting this page from a webOS device, not your desktop web browser!");
