@@ -34,7 +34,7 @@ we cannot make any guarantees. This may void your warranty.
 6. The exploit will proceed automatically. The TV will reboot itself once
    during this process, and optionally a second time to finalize the installation
    of the Homebrew Channel. On-screen notifications will indicate the exploit's
-   progress.
+   progress. Occasionally, the TV may turn off instead of rebooting - if this happens, just turn the TV back on again.
 
 Your TV should now have Homebrew Channel app installed, and an
 unauthenticated(!) root telnet service exposed.
