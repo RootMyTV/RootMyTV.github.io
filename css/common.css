@@ -154,3 +154,12 @@ background-repeat: no-repeat;
     word-wrap: break-word;
 }
 
+/* mobile layout */
+@media only screen and (max-width: 600px) {
+	.slider-bar {
+		display: none;
+	}
+	header > h1 {
+		font-size: 12vw;
+	}
+}
