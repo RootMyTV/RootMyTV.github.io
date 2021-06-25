@@ -11,13 +11,23 @@ If you want the full details of how the exploit works, [skip ahead to our writeu
 
 # Is my TV vulnerable?
 
-At the time of writing (2021-05-15), all webOS versions between 3.4 and 6.0 we
-tested (TVs released between mid-2017 and early-2021) are supported by this exploit
-chain. Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not*
-the "Software Version" field.
+At the time of writing the original exploit (RootMyTV v1 - 2021-05-15), all
+webOS versions between 3.4 and 6.0 we tested (TVs released between mid-2017 and
+early-2021) are supported by this exploit chain. Around June-July 2021 LG
+started rolling out updates which added some minor mitigations that broke our
+original exploit chain.
 
-If you want to protect your TV against remote exploitation, please see the
-[relevant section](#mitigation-note) of our writeup and/or await an update from LG.
+**At the time of writing (RootMyTV v2 - 2022-01-05)**, all webOS versions
+between 4.x and 6.2+ we tested (TVs released between early-2018 and late-2021)
+are supported by the new exploit chain.
+
+Some versions between 3.4 and 3.9 may be supported by RootMyTV v2, but your
+mileage may vary.
+
+Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not* the "Software Version" field.
+
+*If you want to protect your TV against remote exploitation, please see the
+[relevant section](#mitigation-note) of our writeup and/or await an update from LG.*
 
 # Usage Instructions
 
@@ -25,49 +35,165 @@ If you want to protect your TV against remote exploitation, please see the
 LG, and although we've done our best to minimise the risk of damage,
 we cannot make any guarantees. This may void your warranty.
 
-1. Make sure the "LG Connect Apps" feature is enabled. It seems to be enabled by default on
-   webOS 4.0+. For older models, follow [LG's instructions](https://www.lg.com/in/support/help-library/lg-webos-tv-how-to-use-lg-connect-apps-CT20150005-1437127057046).
-2. (Optional but recommended) If you have LG's Developer Mode app installed, uninstall it. You won't be able to use it after running the exploit, and its functionality is replaced by the Homebrew Channel.
+1. (Pre-webOS 4.0) Make sure "Settings → Network → LG Connect Apps" feature is enabled.
+2. Developer Mode app **must be uninstalled before rooting**. Having this
+   application installed will interfere with RootMyTV v2 exploit, and its full
+   functionality is replaced by Homebrew Channel built-in SSH server.
 3. Open the TV's web browser app and navigate to [https://rootmy.tv](https://rootmy.tv)
 4. "Slide to root" using a Magic Remote or press button "5" on your remote.
 5. Accept the security prompt.
 6. The exploit will proceed automatically. The TV will reboot itself once
    during this process, and optionally a second time to finalize the installation
    of the Homebrew Channel. On-screen notifications will indicate the exploit's
-   progress. Occasionally, the TV may turn off instead of rebooting - if this happens, just turn the TV back on again.
+   progress. On webOS 6.x **Home Screen needs to be opened** for
+   notifications/prompts to show up.
 
-Your TV should now have Homebrew Channel app installed, and an
-unauthenticated(!) root telnet service exposed.
+Your TV should now have Homebrew Channel app installed.
+
+By default system updates and remote root access are disabled on install. If
+you want to change these settings go to Homebrew Channel → Settings. Options
+there are applied after a reboot.
 
 For exploiting broken TVs, check out the information [here](./docs/HEADLESS.md).
 
+## Why rooting
+
+* Unlimited "Developer Mode" access
+
+   * While LG allows willing Homebrew developers/users to install unofficial
+     applications onto their TVs, official method requires manual renewal of
+     "developer mode session", which expires after 50 hours of inactivity.
+   * Some of the [amazing homebrew](https://repo.webosbrew.org) that has been
+     built/ported onto webOS would likely never be accepted onto LG's official
+     Content Store.
+
+* Lower level user/application access
+
+   * This allows willing developers to research webOS system internals, which
+     will result in creation of amazing projects, like
+     [PicCap](https://github.com/TBSniller/piccap) (high performance video
+     capture used for DIY immersive ambient lighting setups), or access to some
+     interesting features like customization of system UI, remote adjustment of
+     certain TV configuration options, and others.
+
+## FAQ
+
+### Is it safe?
+
+While we cannot take any responsibility for Your actions, we have not
+encountered any bricks due to rooting. If you only use trusted software from
+[official Homebrew Channel repository](https://repo.webosbrew.org), then you
+should be safe.
+
+### Will this void my warranty?
+
+**This is not a legal advice.** At least in the EU, [rooting and other software
+modifications are generally deemed to be legal](https://piana.eu/root/) and
+should not be a basis for voiding your warranty.
+
+### How do I get rid of this?
+
+[Factory
+reset](https://www.lg.com/us/support/video-tutorials/lg-tv-how-to-reset-my-lg-smart-tv-CT10000020-1441914092672)
+should remove all root-related configuration files.
+
+We don't have a convenient tool for root removal *without factory reset*, though
+a knowledgable person may be able to [remove our customizations manually](https://github.com/webosbrew/webos-homebrew-channel/issues/11).
+
+### Are system updates possible?
+
+While updates are technically possible, if LG patches the exploit, you might end
+up "locked out" and unable to re-root your TV if you somehow lose access. We
+also can't predict how future updates will affect our techniques used to elevate
+and operate the Homebrew Channel app.
+
+### Will this break Netflix/YouTube/AmazonVideo?
+
+No. This does not break or limit access to subscription services or other DRMed
+content.
+
+However, staying on very old firmware version (which may be required for keeping
+root access persistent) may limit Your access to LG Content Store application
+installs, updates, or (rarely) launches. Workarounds for this [are in the
+works](https://github.com/webosbrew/webos-homebrew-channel/issues/75).
+
+### How do I update from RootMyTV v1? (released 2021/05)
+
+If you are not going to update your TV Software Version to the one that is
+already patched (most 4.x+ released after 2021/06) there is no need to update.
+New chain does not bring any new features - the most sensible thing you can do
+is to update your Homebrew Channel app.
+
+If you are already rooted on downgraded/pre-2021-06 firmware version and want to
+upgrade further, doing an official software update will remove existing root
+files and homebrew applications. Running RootMyTV v2 then will reenable root
+access again. You will need to reinstall removed applications yourself.
+
+**If you know what you are doing** and want to persist installed applications,
+you need to remove
+`/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sh`
+file right before an update (without rebooting inbetween), and then run
+RootMyTV v2 right on first boot after software update.
+
+### I quickly turned my TV on and off and it's really angry about Failsafe Mode
+
+**If "Failsafe Mode" got tripped on your TV and it's showing angry notifications,
+go to Homebrew Channel → Settings, switch "Failsafe Mode" off and press
+"Reboot".**
+
+"Failsafe Mode" is a mode where none of our system customizations are enabled
+and only an emergency remote access server gets started up.
+
+This mode gets enabled automatically when the TV crashes, gets its power removed
+or is shut down during early system startup. In order to reduce chances of that
+happening we recommend enabling "Quick Start+" setting in webOS System Settings
+General tab. This will make the TV only go to "sleep mode" (which doesn't take
+much more power) instead of doing a full shutdown, and will not need to restart
+our services on every suspend. This will also make TV startup much faster.
+
 ## Post-Installation Advice (IMPORTANT!)
 
-1. For security reasons, it is **highly recommended** to disable
-   Telnet, and enable SSH Server with public key authentication
-   (Homebrew Channel → Settings → SSH Server). You will need to manually copy
-   your SSH Public Key over to `/home/root/.ssh/authorized_keys` on the TV.
+1. Don't update your TV. While updates are technically possible, if LG patches the
+   exploit, you might end up "locked out" and unable to re-root your TV if you
+   somehow lose access. We also can't predict how future updates will affect
+   our techniques used to elevate and operate the Homebrew Channel app. **"Block
+   system updates" option in Homebrew Channel will disable firmware update
+   checks.** Make sure "Automatic system updates" option in webOS System
+   Settings is disabled as well.
+
+2. Don't Install, Uninstall, or Update LG's "Developer Mode" app. Doing so will
+   overwrite, remove or otherwise interfere with the startup script used to
+   bootstrap the jailbreak. It is **required** to remove "Developer Mode" app
+   before rooting. SSH service exposed by Homebrew Channel is compatible with
+   webOS SDK tooling.
+
+3. If you need remote root shell access and know how to use SSH, you can enable
+   it in Homebrew Channel settings. Default password is `alpine`, but we recommend
+   setting up SSH Public Key authentication by copying your SSH Public Key over
+   to `/home/root/.ssh/authorized_keys` on the TV. This will disable password
+   authentication after a reboot.
 
    GitHub user registered keys can be installed using the following snippet:
-
    ```sh
    mkdir -p ~/.ssh && curl https://github.com/USERNAME.keys > ~/.ssh/authorized_keys
    ```
-2. Don't update your TV. While updates are technically possible, if LG patches the
-   exploit, you might end up "locked out" and unable to re-root your TV if you
-   somehow lose access. We also can't predict how future updates will affect
-   our techniques used to elevate and operate the Homebrew Channel app. "Block
-   system updates" option in Homebrew Channel will disable firmware update
-   checks.
-3. Don't Install, Uninstall, or Update LG's "Developer Mode" app. Doing so will
-   overwrite or remove the startup script used to bootstrap the jailbreak. It is
-   advisable to remove "Developer Mode" app before rooting. SSH service exposed
-   by Homebrew Channel is compatible with webOS SDK tooling.
+
+   Alternative option is Telnet (can be enabled in Homebrew Channel → Settings
+   → Telnet) though it is **highly discouraged**, since this gives
+   unauthenticated root shell to anyone on a local network.
+
+4. It is recommended to have "Quick Start+" functionality **enabled**. This will
+   make shutdown button on a remote not do a full system shutdown. If you
+   quickly turn the TV on and off without Quick Start+, our "Failsafe Mode" may
+   get triggered (which is there to prevent startup scripts bricking the TV)
+   which will go away after switching relevant switch in Homebrew Channel
+   Settings.
 
 ## Troubleshooting
 
 In case of any problems [join the OpenLGTV Discord server](https://discord.gg/xWqRVEm)
-and ask for help on `#rootmytv` channel, or file a GitHub issue.
+and ask for help on `#rootmytv` channel, ask on [our `#openlgtv:netserve.live`
+Matrix channel](https://matrix.to/#/#openlgtv:netserve.live), or file a GitHub issue.
 
 Before asking for support, please consult our [Troubleshooting guide](./docs/TROUBLESHOOTING.md).
 
@@ -97,8 +223,8 @@ More importantly, this exploit could be easily triggered over the local network,
 using SSAP (details below), making it much more reliable and user-friendly.
 
 At time of writing, the code in this repo is the combined work of David
-Buchanan (Web design, initial PoC exploit) and Piotr Dobrowolski (Improved "v2" exploit
-implementation, and writeup).
+Buchanan (Web design, initial PoC exploit) and Piotr Dobrowolski (Improved "v1" exploit
+implementation, writeup, and "v2" research and implementation).
 
 We would like to thank:
 
@@ -240,3 +366,31 @@ shell and removing itself (in case something goes wrong and the user needs to
 reboot a TV - script keeps running but will no longer be executed on next
 startup), installs the homebrew channel app via standard devmode service calls
 and elevates its service to run unjailed as root as well.
+
+### 2021/06: The Old-New Chain (RootMyTV v2)
+Around 2021/06 LG started rolling out a patched version which involved some
+fixes for the tricks we used in this chain:
+
+* Certain applications we used for private bus access have their permissions limited to `public`
+* LunaDownloadMgr now checks target paths against a list of regular expressions
+  in `/etc/palm/luna-downloadmgr/download.json`
+* `start-devmode.sh` script is now shipped with a signature and is now verified using `openssl` on each boot
+    * This one had an interesting side effect - it took approximately a month
+      for LG to roll out a new Developer Mode application with signed
+      `start-devmode.sh`, during which time updated TVs were unable to use
+      developer mode at all.
+
+Most of these mitigations are too trivial to work around, thus we still consider
+this chain unfixed.
+
+* There are still applications on the system that are vulnerable to XSS attacks
+  with private bus permissions
+* Regular expressions used to verify target paths are too broad, and thus still
+  allow us to write to relevant paths
+* There are multiple paths that are executed during bootup, so we don't even
+  need to use `start-devmode.sh`
+
+Our initial estimate for fixing these issues in our chain were "a couple of
+hours" - patches theorized on our side on 2021/05/27 turned out to be correct,
+but due to some strategic choices and lack of personal time, we decided to
+postpone testing and release for a couple of months. Sorry. :)

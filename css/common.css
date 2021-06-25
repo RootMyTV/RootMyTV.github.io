@@ -29,6 +29,12 @@ header > h1 {
     font-size: 4em;
     text-shadow: 0 0 3px #d4ffff, 0 0 3px #d4ffff, 0 0 3px #d4ffff, 0 0 1em #0bb6be, 0 0 0.2em #0bb6be;
 }
+
+header > h1 > small {
+    font-size: 20pt;
+    text-shadow: 0 0px 2px white, 0 0px 2px white, 0 0 0.4em #731178, 0 2px 0.2em pink, 0 -3px 0.2em #aa0000;
+}
+
 article {
     line-height: 1.5;
     color: #c4f0fd;

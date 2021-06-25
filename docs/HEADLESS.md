@@ -24,5 +24,10 @@ perform rooting on. This can help when rooting a TV without a working display.
     - Exit (or press back multiple times)
 2. Run an exploit in an external browser providing an IP address of a TV
 3. When asked for a connection prompt after a couple of seconds, press → and OK
+   (or ↓ and OK on webOS 6.x+ / TVs released in 2021+)
 4. TV should reboot after a while and should start responding to unauthenticated
    telnet connections on its IP address.
+5. **Important:** since RootMyTV v2 we disable telnet by default after a second
+   reboot. In order to keep it on you will need to connect over telnet on first
+   boot after rooting and remove
+   `/var/luna/preferences/webosbrew_telnet_disabled` file.

