@@ -146,7 +146,7 @@ find a way of calling an arbitrary Luna service from an application with a
 ### Step #0 - Getting in (index.html)
 
 In order to gain initial programmatic control of the TV GUI, an
-interface called "LG Connect Apps" can be used. Its protocol, called "SSAP", is a
+interface called "LG Connect Apps" can be used. Its protocol, called "SSAP" (Simple Service Access Protocol), is a
 simple websocket-based RPC mechanism that can be used to indirectly interact
 with Luna Service bus, and has been extensively documented in various
 home-automation related contexts. We use that to launch a vulnerable system
