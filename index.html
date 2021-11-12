@@ -223,7 +223,7 @@
 
       // Allow people to download the exploit page to manually set target IP,
       // in case direct on-tv deployment fails for some reason.
-      var target = is_local ? prompt('Enter IP address of Your TV') : 'localhost';
+      var target = is_local ? prompt('Enter IP address of Your TV') : '127.0.0.1';
       bootstrap(target, new URL('stage2.html', ORIGIN_URL).href);
     }
 
