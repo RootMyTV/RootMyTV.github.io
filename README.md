@@ -151,6 +151,11 @@ General tab. This will make the TV only go to "sleep mode" (which doesn't take
 much more power) instead of doing a full shutdown, and will not need to restart
 our services on every suspend. This will also make TV startup much faster.
 
+### I want to support you financially!
+
+If you want, you can support this project via GitHub Sponsors - see "Sponsor"
+button in upper right corner.
+
 ## Post-Installation Advice (IMPORTANT!)
 
 1. Don't update your TV. While updates are technically possible, if LG patches the
