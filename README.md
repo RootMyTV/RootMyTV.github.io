@@ -151,6 +151,20 @@ General tab. This will make the TV only go to "sleep mode" (which doesn't take
 much more power) instead of doing a full shutdown, and will not need to restart
 our services on every suspend. This will also make TV startup much faster.
 
+### I want to run some commands as root during boot!
+
+Our [startup
+script](https://github.com/webosbrew/webos-homebrew-channel/blob/main/services/startup.sh#L77-L80)
+runs all executable files in `/var/lib/webosbrew/init.d` on boot (via
+`run-parts` - filenames may only contain `a-zA-Z0-9-_` letters!) - create your
+own scripts there.
+
+Create any customizations there and **do not** modify existing RootMyTV/Homebrew
+Channel scripts, since these may be overwritten on future updates.
+
+If you are a homebrew developer - create a symlink to a script in your own app
+path there, and **do not** copy over anything there.
+
 ### I want to support you financially!
 
 If you want, you can support this project via GitHub Sponsors - see "Sponsor"

@@ -55,6 +55,10 @@ touch /var/luna/preferences/webosbrew_telnet_disabled
 # exploits sooner or later.
 touch /var/luna/preferences/webosbrew_block_updates
 
+mkdir -p /var/lib/webosbrew/init.d
+echo "Executable scripts in here will be launched on boot by /var/lib/webosbrew/startup.sh (main startup script)" > /var/lib/webosbrew/init.d/README.txt
+echo "Note the filename may only contain a-zA-Z0-9_- since this is executed by run-parts" >> /var/lib/webosbrew/init.d/README.txt
+
 # This is a load-bearing tee. Don't ask.
 luna-send -a webosbrew -f -n 1 luna://com.webos.notification/createToast '{"sourceId":"webosbrew","message": "Elevating homebrew channel..."}'
 /media/developer/apps/usr/palm/services/org.webosbrew.hbchannel.service/elevate-service 2>&1 | tee /tmp/elevate.log
