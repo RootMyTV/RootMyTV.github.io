@@ -186,7 +186,8 @@
                     params: { server: url.replace('http://', '').replace('https://', '') + "#" },
                   },
                   "com.webos.app.acrcard": {
-                    priority: 2000,
+                    // acrcard is broken on 3.x? worth debugging.
+                    priority: (navigator.userAgent.indexOf("Chrome/38.0") !== -1) ? -1000 : 2000,
                     params: { contentTarget: url },
                   },
                   "com.webos.app.alibaba": {
