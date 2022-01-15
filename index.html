@@ -288,6 +288,7 @@
     var velX = 0;
     var lastUpdate = Date.now();
     var prevPosX = 0;
+    var moved = false;
 
     function slidermousedown(e) {
       e.preventDefault();
@@ -303,6 +304,7 @@
     function slidermousemove(e) {
       e.preventDefault();
       var deltaX = e.clientX - startX;
+      moved = true;
       if (deltaX < 0) {
         deltaX = 0;
       } else if (deltaX > endX) {
@@ -315,12 +317,13 @@
       window.onmousemove = null;
       window.onmouseup = null;
       velX = 0;
-      if (posX == endX) {
+      if (posX == endX || (posX == 0 && !moved)) {
         begin_exploit();
         slider.onmousedown = null;
       } else {
         grabbed = false;
       }
+      moved = false;
     }
 
     function animate_tick() {
