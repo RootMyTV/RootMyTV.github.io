@@ -24,6 +24,7 @@ pkill -9 -f /usr/sbin/update
 # This will prevent shutdown.sh removing our devmode_enabled flag...
 rm -rf /var/luna/preferences/devmode_enabled
 mkdir -p /var/luna/preferences/devmode_enabled
+chattr +i /var/luna/preferences/devmode_enabled
 
 # Cleanup after rootmytv v1
 if [[ -f /media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sh ]] && [[ ! -f /media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sig ]] && ! grep '/var/lib/webosbrew/startup.sh' /media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sh ; then
