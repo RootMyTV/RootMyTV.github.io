@@ -30,6 +30,4 @@ perform rooting on. This can help when rooting a TV without a working display.
 5. **Important:** since RootMyTV v2 we disable telnet by default after a second
    reboot. In order to keep it on you will need to connect over telnet on first
    boot after rooting and remove
-   `/var/luna/preferences/webosbrew_telnet_disabled` file. To enable SSH daemon
-   use the command `echo -n 1 > /var/luna/preferences/webosbrew_sshd_enabled`.
-   For default password and instructions for adding SSH key see main README.
+   `/var/luna/preferences/webosbrew_telnet_disabled` file.
