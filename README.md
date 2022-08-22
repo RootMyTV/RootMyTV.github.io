@@ -180,8 +180,10 @@ button in upper right corner.
    checks.** Make sure "Automatic system updates" option in webOS System
    Settings is disabled as well.
 
-2. It is **required** to remove "Developer Mode" app before rooting. Otherwise it will interfere with the startup script used to
-   bootstrap the jailbreak. SSH service exposed by Homebrew Channel is compatible with
+2. Don't Install, Uninstall, or Update LG's "Developer Mode" app. Doing so will
+   overwrite, remove or otherwise interfere with the startup script used to
+   bootstrap the jailbreak. It is **required** to remove "Developer Mode" app
+   before rooting. SSH service exposed by Homebrew Channel is compatible with
    webOS SDK tooling.
 
 3. If you need remote root shell access and know how to use SSH, you can enable
