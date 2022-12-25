@@ -11,6 +11,16 @@ If you want the full details of how the exploit works, [skip ahead to our writeu
 
 # Is my TV vulnerable?
 
+---
+
+*Update (2022-12-24)*: **The vulnerabilities used by RootMyTv (both v1 and v2) have been patched by LG.
+RootMyTV is unlikely to work on firmware released since mid-2022.**
+If you get a `"Denied method call "download" for category "/""` error, your TV is patched.
+If your TV reboots but Homebrew Channel is not installed, it is likely patched.
+Firmware downgrades are no longer possible without already having root access.
+
+---
+
 At the time of writing the original exploit (RootMyTV v1 - 2021-05-15), all
 webOS versions between 3.4 and 6.0 we tested (TVs released between mid-2017 and
 early-2021) are supported by this exploit chain. Around June-July 2021 LG
