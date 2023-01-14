@@ -13,7 +13,7 @@ If you want the full details of how the exploit works, [skip ahead to our writeu
 
 ---
 
-*Update (2022-12-24)*: **The vulnerabilities used by RootMyTv (both v1 and v2) have been patched by LG.
+*Update (2022-12-24)*: **The vulnerabilities used by RootMyTV (both v1 and v2) have been patched by LG.
 RootMyTV is unlikely to work on firmware released since mid-2022.**
 If you get a `"Denied method call "download" for category "/""` error, your TV is patched.
 If your TV reboots but Homebrew Channel is not installed, it is likely patched.
