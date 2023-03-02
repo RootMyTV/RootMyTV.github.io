@@ -1,0 +1,4 @@
+* text=auto
+
+# these need to be LF to run on webOS
+/files/* text eol=lf
