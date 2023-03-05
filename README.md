@@ -19,6 +19,8 @@ If you get a `"Denied method call "download" for category "/""` error, your TV i
 If your TV reboots but Homebrew Channel is not installed, it is likely patched.
 Firmware downgrades are no longer possible without already having root access.
 
+In the meantime please use [this method](https://gist.github.com/throwaway96/e811b0f7cc2a705a5a476a8dfa45e09f).
+
 ---
 
 At the time of writing the original exploit (RootMyTV v1 - 2021-05-15), all
