@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>RootMyTV - Security Notice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1.0">
+  <link rel="stylesheet" href="css/common.css" />
+</head>
+
+<body>
+  <header>
+    <h1>RootMy.TV<small> 2.0</small></h1>
+  </header>
+  <hr>
+  <section class="content-center">
+    <article id="main-article">
+      <h2>Warning!</h2>
+      <p>
+        While rooting itself is safe, and wouldn't cause issue by itself, please avoid the following things otherwise
+        you <b>risk bricking your TV</b>.
+      </p>
+      <h3>DON'T: Modify System Partitions</h3>
+      <p>
+        <b>DO NOT</b> write kernel, rootfs or any other read-only partitions under any circumstance!<br>
+        webOS bootloader will verify the signature of those partitions, and refuse to boot.<br>
+      </p>
+      <h3>DON'T: Mark files non-writable</h3>
+      <p>
+        <code>chattr</code> command can be very dangerous on webOS. Some script will fail to run (e.g. start-devmode)
+        if files used in it can't be modified or deleted. You may lose shell access to your TV forever, even if you
+        factory reset your TV, as user partitions will get its files <code>rm -rf</code>ed rather than formatted.
+      </p>
+      <h2>What if I bricked my TV?</h2>
+      <p>
+        We've warned you. But you're welcome to ask for help on the OpenLGTV Discord server. It's still possible to
+        rescue your TV, but opening up the TV and reprogramming the storage chip is what needs to happen most likely.
+        Or perhaps you'll require a mainboard swap.
+      </p>
+    </article>
+  </section>
+  <hr>
+</body>
+
+</html>
