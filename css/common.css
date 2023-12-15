@@ -169,3 +169,12 @@ background-repeat: no-repeat;
 		font-size: 12vw;
 	}
 }
+
+#patched {
+    color: red;
+}
+
+#patched > .code {
+    font-family: monospace;
+    background-color: #282828;
+}

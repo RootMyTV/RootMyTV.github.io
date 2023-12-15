@@ -9,35 +9,22 @@ community-developed open source app, that makes it easier to develop and install
 
 If you want the full details of how the exploit works, [skip ahead to our writeup](#research-summary-and-timeline).
 
-# Is my TV vulnerable?
+# Is my TV vulnerable? (short answer: no)
 
----
-
-*Update (2022-12-24)*: **The vulnerabilities used by RootMyTV (both v1 and v2) have been patched by LG.
+**The vulnerabilities used by RootMyTV (both v1 and v2) have been patched by LG.
 RootMyTV is unlikely to work on firmware released since mid-2022.**
+
 If you get a `"Denied method call "download" for category "/""` error, your TV is patched.
 If your TV reboots but Homebrew Channel is not installed, it is likely patched.
 Firmware downgrades are no longer possible without already having root access.
 
----
-
-At the time of writing the original exploit (RootMyTV v1 - 2021-05-15), all
-webOS versions between 3.4 and 6.0 we tested (TVs released between mid-2017 and
-early-2021) are supported by this exploit chain. Around June-July 2021 LG
-started rolling out updates which added some minor mitigations that broke our
-original exploit chain.
-
-**At the time of writing (RootMyTV v2 - 2022-01-05)**, all webOS versions
-between 4.x and 6.2+ we tested (TVs released between early-2018 and late-2021)
-are supported by the new exploit chain.
-
-Some versions between 3.4 and 3.9 may be supported by RootMyTV v2, but your
-mileage may vary.
+RootMyTV never worked on webOS versions prior to 3.4.0 or newer than 6.2.x.
 
 Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not* the "Software Version" field.
 
 *If you want to protect your TV against remote exploitation, please see the
-[relevant section](#mitigation-note) of our writeup and/or await an update from LG.*
+[relevant section](#mitigation-note) of our writeup and/or apply the latest
+firmware update for your TV.*
 
 # Usage Instructions
 
@@ -262,6 +249,21 @@ We would like to thank:
  - All the contributors (present and future) to the Homebrew Channel, and development of other homebrew apps and software.
 
  - LG, for patching symptoms of bugs rather than underlying causes...
+
+# Historical Information
+
+At the time of writing the original exploit (RootMyTV v1 - 2021-05-15), all
+webOS versions between 3.4 and 6.0 we tested (TVs released between mid-2017 and
+early 2021) were supported by this exploit chain. Around June-July 2021 LG
+started rolling out updates which added some minor mitigations that broke our
+original exploit chain.
+
+When RootMyTV v2 was released (2022-01-05), all webOS versions
+between 4.x and 6.2+ we tested (TVs released between early 2018 and late 2021)
+were supported by the v2 exploit chain.
+
+Some versions between 3.4 and 3.9 may be supported by RootMyTV v2, but your
+mileage may vary.
 
 # The Technical Details
 
