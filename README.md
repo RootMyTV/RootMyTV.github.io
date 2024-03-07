@@ -1,8 +1,5 @@
 ![RootMyTV header image](./img/header_logo.png)
 
-> [!IMPORTANT]
-> RootMyTV is unlikely to work on your TV. [Find out why](#vulnerable).
-
 RootMyTV is a user-friendly exploit for rooting/jailbreaking LG webOS smart TVs.
 
 It bootstraps the installation of the [webOS Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel),
@@ -12,62 +9,18 @@ community-developed open source app, that makes it easier to develop and install
 
 If you want the full details of how the exploit works, [skip ahead to our writeup](#research-summary-and-timeline).
 
-# Is my TV vulnerable? (short answer: no) <a id="vulnerable"></a>
+# Is my TV vulnerable? (short answer: no)
 
 **The vulnerabilities used by RootMyTV (both v1 and v2) have been patched by LG.
 RootMyTV is unlikely to work on firmware released since mid-2022.**
 
-> [!IMPORTANT]
-> If you get a `"Denied method call "download" for category "/""` error, your TV is patched.
-> If your TV reboots but Homebrew Channel is not installed, it is likely patched.
-> Firmware downgrades are no longer possible without already having root access.
+If you get a `"Denied method call "download" for category "/""` error, your TV is patched.
+If your TV reboots but Homebrew Channel is not installed, it is likely patched.
+Firmware downgrades are no longer possible without already having root access.
 
-The following table lists the first webOS version for each year's models that is
-known to <u>**not**</u> support RootMyTV:
-| TV model year | Base webOS version | RootMyTV patched since webOS version |
-| ------------- | ------------------ | ------------------------------------ |
-| 2016          | 3.0                | 3.4.2                                |
-| 2017          | 3.5                | 3.9.2                                |
-| 2018          | 4.0                | 4.4.2                                |
-| 2019          | 4.5                | 4.9.7                                |
-| 2020          | 5                  | 5.4.0                                |
-| 2021          | 6                  | 6.3.0                                |
+RootMyTV never worked on webOS versions prior to 3.4.0 or newer than 6.2.x.
 
-If your webOS version is equal to or greater than the version in the "patched
-since" column for your TV's model year, **your TV is not vulnerable to
-RootMyTV**. While these versions and newer are definitely patched, older
-versions may or may not work. RootMyTV never worked on webOS versions prior to
-3.4.0 or any TVs that came with webOS 1, 2, 7 (22), or 8 (23).
-
-<details>
-<summary>More information about webOS version numbers</summary><br>
-
-Depending on the year a TV was released, it uses a certain range of webOS version
-numbers.
-
-The versions before 2016 and after 2019 are easy to understand, since the first
-digit is used only for a single year (e.g., every 6.x.y version is for a 2021
-TV).
-
-However, LG did something unusual in 2017 and 2019 by not using a new first
-digit. TVs from 2017 and 2019 started from webOS versions 3.5 and 4.5,
-respectively. For example, TVs released in 2016 will have webOS versions equal
-to or greater than 3.0.0 and less than 3.5.0; TVs released in 2017 will use
-3.5.0 up to (but not including) 4.0.0; and so on.
-
-<i>Note that when trying to determine when a given webOS version was released,
-you should only compare it with version numbers from the same model year.</i>
-For example, it is safe to assume version 3.4.1 was released after 3.3.0. But
-version 3.4.2 could have been (and in fact was) released after version 4.0.0.
-
-With webOS 7 in 2022, LG started using the marketing name "webOS 22"; the same
-applies to webOS 8 ("webOS 23").
-<br>
-</details>
-<br>
-
-> [!NOTE]
-> This versioning refers to the "webOS TV Version" field in the settings menu, *not* the "Software Version" field.
+Note: this versioning refers to the "webOS TV Version" field in the settings menu, *not* the "Software Version" field.
 
 *If you want to protect your TV against remote exploitation, please see the
 [relevant section](#mitigation-note) of our writeup and/or apply the latest
