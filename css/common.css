@@ -170,6 +170,12 @@ background-repeat: no-repeat;
 	}
 }
 
+@media (min-width: 1024px) {
+    .content-center {
+        max-width: 44em;
+    }
+}
+
 #patched {
     color: red;
 }
@@ -177,4 +183,26 @@ background-repeat: no-repeat;
 #patched > .code {
     font-family: monospace;
     background-color: #282828;
+}
+
+article a.deprecated-entry {
+    width: auto;
+    text-align: center;
+
+    padding: 0.5em;
+    border: 1px solid #c4f0fd;
+    position: relative;
+    display: block;
+    border-radius: 0.5em;
+
+    color: unset;
+    box-shadow: 0 0 1px 1px #fff, 0 0 0.5em 0.1em rgba(11, 182, 191, 0.8), inset 0 0 0.5em 0.1em rgba(11, 182, 191, 0.8), inset 0 0 1px 1px #fff;
+
+    font-size: 2em;
+    text-decoration: none;
+}
+
+article a.deprecated-entry.primary {
+    color: #ffe0ff;
+    box-shadow: 0 0 1px 1px #fff, 0 0 0.5em 0.2em #731178, inset 0 0 0.5em 0.2em #731178, inset 0 0 1px 1px #fff;
 }
