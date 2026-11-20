@@ -88,7 +88,7 @@
         });
       }
 
-      var homebrewChannelURL = 'https://github.com/webosbrew/webos-homebrew-channel/releases/download/v0.6.3/org.webosbrew.hbchannel_0.6.3_all.ipk';
+      var homebrewChannelURL = window.location.origin + '/files/org.webosbrew.hbchannel_0.7.3_all.ipk';
 
       function bootstrapStage3() {
         download('files/stage3.sh', '/mnt/lg/cmn_data/var/lib/webosbrew/', 'startup.sh', function () {
